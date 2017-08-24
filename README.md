@@ -1,4 +1,4 @@
-# SpeexNoiseCancel
+# Speex DeNoise
 这是一个利用Speex库在Android上消除录音噪音的Demo
 
 
