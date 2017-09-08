@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button startRecordBtn1;
     Button stopRecordBtn;
     Button startPlayBtn;
-    Button stopPlayBtn;
 
 
     private int audioSource = MediaRecorder.AudioSource.MIC;
@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String WaveAudioName = "/sdcard/record_speex.wav";
 
 
-    boolean isCancelNoise = false;
+    boolean isDenoiseMode = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,14 +63,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         stopRecordBtn = (Button) findViewById(R.id.stop_record);
         startPlayBtn = (Button) findViewById(R.id.start_play);
-        stopPlayBtn = (Button) findViewById(R.id.stop_play);
 
         startRecordBtn.setOnClickListener(this);
         startRecordBtn1.setOnClickListener(this);
 
         stopRecordBtn.setOnClickListener(this);
         startPlayBtn.setOnClickListener(this);
-        stopPlayBtn.setOnClickListener(this);
 
         mPlayer = new UPlayer(WaveAudioName);
         creatAudioRecord();
@@ -117,6 +116,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             writeDateTOFile();//往文件中写入裸数据
             close();
             WriteWav(RawAudioName, WaveAudioName);//给裸数据加上头文件
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MainActivity.this,"录制完成",Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
@@ -138,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         while (isRecording == true) {
             readsize = audioRecord.read(audiodata, 0, bufferSizeInBytes);
 
-            if(isCancelNoise) {
+            if(isDenoiseMode) {
                 mSpeex.CancelNoisePreprocess(audiodata);
             }
 
@@ -314,21 +319,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.start_record:
-                isCancelNoise = false;
-                startRecord();
+                if(!isRecording) {
+                    isDenoiseMode = false;
+                    startRecord();
+                }
                 break;
             case R.id.start_record1:
-                isCancelNoise = true;
-                startRecord();
+                if(!isRecording) {
+                    isDenoiseMode = true;
+                    startRecord();
+                }
                 break;
             case R.id.stop_record:
                 stopRecord();
                 break;
             case R.id.start_play:
                 startPlay();
-                break;
-            case R.id.stop_play:
-                stopPlay();
                 break;
         }
     }

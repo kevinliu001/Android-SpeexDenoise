@@ -45,12 +45,4 @@
         android:textColor="#000000"
         android:text="开始播放"/>
 
-    <Button
-        android:id="@+id/stop_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:gravity="center"
-        android:textColor="#000000"
-        android:text="停止播放"/>
 </LinearLayout>

@@ -14,14 +14,21 @@ public class UPlayer{
     private MediaPlayer mPlayer;
     public UPlayer(String path){
         this.path = path;
-        mPlayer = new MediaPlayer();
     }
 
 
     public boolean start() {
         try {
-            if(mPlayer == null)
+            if(mPlayer == null) {
                 mPlayer = new MediaPlayer();
+                mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        Log.d("UPlayer","onCompletion");
+                        stop();
+                    }
+                });
+            }
             //设置要播放的文件
             mPlayer.setDataSource(path);
             mPlayer.prepare();

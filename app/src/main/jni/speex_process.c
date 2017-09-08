@@ -16,7 +16,6 @@
 
 SpeexPreprocessState *st;
 
-
 jint Java_com_cyril_speexnoisecancel_Speex_CancelNoiseInit(JNIEnv* env,jobject this,jint frame_size, jint sample_rate)
 {
 
@@ -55,8 +54,10 @@ jint Java_com_cyril_speexnoisecancel_Speex_CancelNoisePreprocess(JNIEnv* env,job
 }
 
 jint Java_com_cyril_speexnoisecancel_Speex_CancelNoiseDestroy(JNIEnv* env,jobject this)
-{   
-   speex_preprocess_state_destroy(st);
+{
+   if(st != NULL)
+       speex_preprocess_state_destroy(st);
+   st = NULL;
    return 1;
 }
 
