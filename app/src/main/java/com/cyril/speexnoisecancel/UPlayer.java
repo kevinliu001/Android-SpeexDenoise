@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.File;
-
 public class UPlayer{
 
     private final String TAG = UPlayer.class.getName();

@@ -11,32 +11,38 @@
         android:id="@+id/hint_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textColor="#ff0000"
         android:layout_marginTop="50dp"/>
     <Button
         android:id="@+id/start_record"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:gravity="center"
         android:textColor="#000000"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:text="开始普通录音"/>
 
     <Button
         android:id="@+id/start_record1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:gravity="center"
         android:textColor="#000000"
         android:text="开始除噪录音"/>
 
     <Button
         android:id="@+id/stop_record"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:gravity="center"
         android:textColor="#000000"
         android:text="结束录制"/>
@@ -44,9 +50,11 @@
 
     <Button
         android:id="@+id/start_play"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:gravity="center"
         android:textColor="#000000"
         android:text="开始播放"/>

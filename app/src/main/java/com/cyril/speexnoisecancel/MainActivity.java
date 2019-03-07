@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         creatAudioRecord();
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -127,19 +126,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void creatAudioRecord() {
-        // 获得缓冲区字节大小
-        bufferSizeInBytes = AudioRecord.getMinBufferSize(sampleRateInHz,
-                channelConfig, audioFormat);
-        mSpeex.CancelNoiseInit(bufferSizeInBytes,sampleRateInHz);
-        // 创建AudioRecord对象
-        audioRecord = new AudioRecord(audioSource, sampleRateInHz,
-                channelConfig, audioFormat, bufferSizeInBytes);
+
+        PermissionManager.grantPermission(this, new IPermissionSuccess() {
+                    @Override
+                    public void onSuccess() {
+                        // 获得缓冲区字节大小
+                        bufferSizeInBytes = AudioRecord.getMinBufferSize(sampleRateInHz,
+                                channelConfig, audioFormat);
+                        mSpeex.CancelNoiseInit(bufferSizeInBytes,sampleRateInHz);
+                        // 创建AudioRecord对象
+                        audioRecord = new AudioRecord(audioSource, sampleRateInHz,
+                                channelConfig, audioFormat, bufferSizeInBytes);
+                    }
+                }
+                ,Permission.RECORD_AUDIO
+                ,Permission.WRITE_EXTERNAL_STORAGE
+                ,Permission.READ_EXTERNAL_STORAGE);
+
     }
 
 
     private void startRecord() {
 
-        hintTV.setText("正在录制，请说话……");
+        if (isDenoiseMode){
+            hintTV.setText("正在录制，并降噪，请说话……");
+        }
+        else{
+            hintTV.setText("正在录制，请说话……");
+        }
+
+
         if(audioRecord == null){
             creatAudioRecord();
         }
@@ -166,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
     class AudioRecordThread implements Runnable {
         @Override
         public void run() {
@@ -178,7 +193,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void run() {
                     hintTV.setText("录制结束，可点开始播放");
-                    Toast.makeText(MainActivity.this,"录制完成",Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -226,7 +240,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     @Override
     protected void onDestroy() {
         isRecording = false;
@@ -236,6 +249,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void startPlay(){
+        hintTV.setText("正在播放");
         mPlayer.start();
     }
 }

@@ -42,6 +42,7 @@ jint Java_com_cyril_speexnoisecancel_Speex_CancelNoiseInit(JNIEnv* env,jobject t
 
 jint Java_com_cyril_speexnoisecancel_Speex_CancelNoisePreprocess(JNIEnv* env,jobject this,jbyteArray buffer)
 {
+
     char * inbuffer = (*env)->GetByteArrayElements(env,buffer, 0);
 
     short *in = inbuffer;
